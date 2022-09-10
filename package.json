@@ -1,0 +1,18 @@
+{
+    "name": "gameofclues-server",
+    "version": "1.0.0",
+    "description": "Urban games",
+    "main": "index.js",
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1"
+    },
+    "author": "Viktor Vukev, Nikolay Stoyanov",
+    "license": "MIT",
+    "dependencies": {
+        "@sendgrid/mail": "^7.7.0",
+        "cors": "^2.8.5",
+        "express": "^4.18.1",
+        "mongodb": "^4.9.1",
+        "mongoose": "^6.5.4"
+    }
+}
