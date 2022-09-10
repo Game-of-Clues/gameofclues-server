@@ -24,7 +24,7 @@ const msg = {
 //   })
 
 app.use(express.json());
-app.use('/api', apiRouter);
+app.use(apiRouter);
 
 app.set('json replacer', (key, value) => {
     if (key === 'password') { return undefined; }
