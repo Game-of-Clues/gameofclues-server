@@ -26,7 +26,7 @@ router.post('/', async (req, res, next) => {
     await reservation.save();
 
     const msg = {
-        to: 'gameofclues.pz@gmail.com', // Change to your recipient
+        to: 'nikistoyanov2005@gmail.com', // Change to your recipient
         from: 'gameofclues.pz@gmail.com', // Change to your verified sender
         subject: `Reservation from ${reservation.name}`,
         text: `${reservation.name} wants to reserve a ${reservation.gameType} game for ${reservation.people} people. The game lasts ${reservation.duration} minutes and takes place on ${reservation.date} at ${reservation.time}. You can contact ${reservation.name} on ${reservation.email} or ${reservation.phoneNumber}`,
@@ -41,6 +41,7 @@ router.post('/', async (req, res, next) => {
             console.error(error)
         })
 
+        return reservation._id;
 })
 
 module.exports = router;
