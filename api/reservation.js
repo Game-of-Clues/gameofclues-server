@@ -10,7 +10,7 @@ router.get('/', (req, res, next) => {
         .catch(next);
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
 
     const reservation = new models.Reservation({
         duration: +req.body.duration,
@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
         email: req.body.email
     });
 
-    reservation.save();
+    await reservation.save();
 
     const msg = {
         to: 'nikistoyanov2005@gmail.com', // Change to your recipient
