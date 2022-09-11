@@ -1,7 +1,7 @@
 const router = require('express').Router();
 const models = require('../models');
 const userRouter = require('./user');
-const reservationRouter = require('./user');
+const reservationRouter = require('./reservation');
 
 router.post('/register', (req, res, next) => {
     const { email, firstName, lastName, password } = req.body;

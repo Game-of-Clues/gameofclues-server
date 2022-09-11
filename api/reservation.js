@@ -2,7 +2,7 @@ const router = require('express').Router();
 const models = require('../models');
 const sgMail = require('@sendgrid/mail');
 
-sgMail.setApiKey(process.env.sgApiKey);
+sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.get('/', (req, res, next) => {
     models.Reservation.find()
@@ -10,11 +10,11 @@ router.get('/', (req, res, next) => {
         .catch(next);
 })
 
-router.post('/', (req, res, next) => {
+router.post('/', async (req, res, next) => {
 
     const reservation = new models.Reservation({
-        duration: req.body.duration,
-        people: req.body.people,
+        duration: +req.body.duration,
+        people: +req.body.people,
         gameType: req.body.gameType,
         date: req.body.date,
         time: req.body.time,
@@ -23,7 +23,7 @@ router.post('/', (req, res, next) => {
         email: req.body.email
     });
 
-    reservation.save();
+    await reservation.save();
 
     const msg = {
         to: 'nikistoyanov2005@gmail.com', // Change to your recipient
