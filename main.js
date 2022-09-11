@@ -3,6 +3,12 @@ const apiRouter = require('./api');
 const app = express();
 const cors = require('cors');
 
+app.use(cors({
+    origin: true,
+    credentials: true,
+    methods: 'POST,GET,PUT,OPTIONS,DELETE'
+}));
+
 app.use(express.json());
 app.use(apiRouter);
 
