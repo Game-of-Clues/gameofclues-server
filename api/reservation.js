@@ -41,7 +41,7 @@ router.post('/', async (req, res, next) => {
             console.error(error)
         });
 
-        return reservation._id;
+    res.send(reservation._id); 
 })
 
 module.exports = router;
