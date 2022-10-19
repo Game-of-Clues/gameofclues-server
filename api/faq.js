@@ -13,7 +13,7 @@ router.get('/', (req, res, next) => {
 router.post('/', async (req, res, next) => {
 
     const faq = new models.Faq({
-        question: req.body.questions,
+        questions: req.body.questions,
         answer: req.body.answer
     });
 
