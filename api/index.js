@@ -2,6 +2,7 @@ const router = require('express').Router();
 const models = require('../models');
 const jwt = require('../modules/jwt');
 const userRouter = require('./user');
+const faqRouter = require('./faq');
 const reservationRouter = require('./reservation');
 
 router.post('/register', (req, res, next) => {
@@ -27,5 +28,6 @@ router.get('/', (req, res) => {
 });
 
 router.use('/user', userRouter);
+router.use('/faq', faqRouter);
 router.use('/reservation', reservationRouter);
 module.exports = router;
