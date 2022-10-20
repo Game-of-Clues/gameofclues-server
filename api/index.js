@@ -4,6 +4,7 @@ const jwt = require('../modules/jwt');
 const userRouter = require('./user');
 const faqRouter = require('./faq');
 const contactRouter = require('./contact');
+const teamMemberRouter = require('./teamMember');
 const reservationRouter = require('./reservation');
 
 router.get('/', (req, res) => {
@@ -31,5 +32,6 @@ router.post('/login', (req, res, next) => {
 router.use('/user', userRouter);
 router.use('/faq', faqRouter);
 router.use('/contact', contactRouter);
+router.use('/team-member', teamMemberRouter);
 router.use('/reservation', reservationRouter);
 module.exports = router;
