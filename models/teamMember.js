@@ -13,6 +13,14 @@ const teamMemberSchema = new Schema({
     photoUrl: {
         type: String,
         required: true
+    },
+    facebook: {
+        type: String,
+        required: true
+    },
+    instagram: {
+        type: String,
+        required: true
     }
 });
 

@@ -12,7 +12,9 @@ router.post('/', async (req, res, next) => {
     const teamMember = new models.TeamMember({
         name: req.body.name,
         role: req.body.role,
-        photoUrl: req.body.photoUrl
+        photoUrl: req.body.photoUrl,
+        facebook: req.body.facebook,
+        instagram: req.body.instagram
     });
 
     await teamMember.save();
