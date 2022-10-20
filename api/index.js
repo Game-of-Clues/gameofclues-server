@@ -3,7 +3,12 @@ const models = require('../models');
 const jwt = require('../modules/jwt');
 const userRouter = require('./user');
 const faqRouter = require('./faq');
+const contactRouter = require('./contact');
 const reservationRouter = require('./reservation');
+
+router.get('/', (req, res) => {
+    res.send('Hello, world!');
+});
 
 router.post('/register', (req, res, next) => {
     const { email, firstName, lastName, password, isAdmin } = req.body;
@@ -23,11 +28,8 @@ router.post('/login', (req, res, next) => {
     }).catch(next);
 });
 
-router.get('/', (req, res) => {
-    res.send('Hello, world!');
-});
-
 router.use('/user', userRouter);
 router.use('/faq', faqRouter);
+router.use('/contact', contactRouter);
 router.use('/reservation', reservationRouter);
 module.exports = router;

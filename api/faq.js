@@ -1,8 +1,5 @@
 const router = require('express').Router();
 const models = require('../models');
-const sgMail = require('@sendgrid/mail');
-
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 router.get('/', (req, res, next) => {
     models.Faq.find()
