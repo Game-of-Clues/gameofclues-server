@@ -8,7 +8,7 @@ const teamMemberRouter = require('./teamMember');
 const reservationRouter = require('./reservation');
 
 router.get('/', (req, res) => {
-    res.send('Hello, world!');
+    res.send('Hello, world');
 });
 
 router.post('/register', (req, res, next) => {
