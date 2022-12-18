@@ -3,7 +3,8 @@ const models = require('../models');
 
 module.exports = function (adminOnly = false) {
     return function (req, res, next) {
-        const token = req.cookies['auth_cookie'];
+        const token = req.headers.authorization;
+
         jwt.verify(token)
             .then(({ id }) => models.User.findById(id))
             .then(user => {

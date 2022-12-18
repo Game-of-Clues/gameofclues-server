@@ -1,37 +1,38 @@
 const router = require('express').Router();
 const models = require('../models');
-const jwt = require('../modules/jwt');
-const userRouter = require('./user');
+const authRouter = require('./auth');
 const faqRouter = require('./faq');
-const contactRouter = require('./contact');
-const teamMemberRouter = require('./teamMember');
 const reservationRouter = require('./reservation');
+const teamMemberRouter = require('./teamMember');
+const userRouter = require('./user');
+const sgMail = require("../modules/sgMail");
 
 router.get('/', (req, res) => {
-    res.send('Hello, world');
+    res.send('Game of Clues Server is up and running!');
 });
 
-router.post('/register', (req, res, next) => {
-    const { email, firstName, lastName, password, isAdmin } = req.body;
-    models.User.create({ email, firstName, lastName, password, isAdmin: isAdmin || false })
-        .then((user) => res.send(user))
+router.post('/contact-us', (req, res, next) => {
+    const { name, email, subject, content } = req.body;
+
+    models.Contact.create({ name, email, subject, content })
+        .then(contact => {
+            const msg = {
+                to: 'gameofclues.pz@gmail.com',
+                from: 'gameofclues.pz@gmail.com',
+                subject: `${contact.subject}`,
+                text: `${contact.name} send you a message with text ${contact.content}. You can contact ${contact.name} on ${contact.email}.`,
+            };
+            sgMail.send(msg);
+
+            res.send(contact._id);
+        })
         .catch(next);
 });
 
-router.post('/login', (req, res, next) => {
-    const { email, password } = req.body;
-    models.User.findOne({ email }).then(user => {
-        if (!user) { res.send({ error: '[NOT_FOUND]' }); return; }
-        return Promise.all([user, jwt.create({ id: user._id })]);
-    }).then(([user, token]) => {
-        res.cookie('auth_cookie', token, { httpOnly: true });
-        res.send({ user });
-    }).catch(next);
-});
-
-router.use('/user', userRouter);
+router.use('/auth', authRouter);
 router.use('/faq', faqRouter);
-router.use('/contact', contactRouter);
-router.use('/team-member', teamMemberRouter);
 router.use('/reservation', reservationRouter);
+router.use('/team-member', teamMemberRouter);
+router.use('/user', userRouter);
+
 module.exports = router;

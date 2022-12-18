@@ -1,47 +1,41 @@
 const router = require('express').Router();
 const models = require('../models');
-const sgMail = require('@sendgrid/mail');
+const auth = require('../modules/auth');
+const sgMail = require('../modules/sgMail');
 
-sgMail.setApiKey(process.env.SENDGRID_API_KEY);
+router.get('/:id', auth(), (req, res, next) => {
+    models.Reservation
+        .findById(req.params.id)
+        .then(reservation => {
+            res.send(reservation);
+        })
+        .catch(next);
+});
 
-router.get('/', (req, res, next) => {
+router.get('/', auth(true), (req, res, next) => {
     models.Reservation.find()
         .then(reservations => res.send(reservations))
         .catch(next);
-})
+});
 
-router.post('/', async (req, res, next) => {
+// TODO router.get('/mine', auth(), (req, res, next) => {});
 
-    const reservation = new models.Reservation({
-        duration: +req.body.duration,
-        people: +req.body.people,
-        gameType: req.body.gameType,
-        date: req.body.date,
-        time: req.body.time,
-        name: req.body.name,
-        phoneNumber: req.body.phoneNumber,
-        email: req.body.email
-    });
+router.post('/', auth(), (req, res, next) => {
+    const { duration, people, gameType, date, time, name, phoneNumber, email } = req.body;
 
-    await reservation.save();
+    models.Reservation.create({ duration, people, gameType, date, time, name, phoneNumber, email })
+        .then(reservation => {
+            const msg = {
+                to: 'gameofclues.pz@gmail.com',
+                from: 'gameofclues.pz@gmail.com',
+                subject: `Reservation from ${reservation.name}`,
+                text: `${reservation.name} wants to reserve a ${reservation.gameType} game for ${reservation.people} people. The game lasts ${reservation.duration} minutes and takes place on ${reservation.date} at ${reservation.time}. You can contact ${reservation.name} on ${reservation.email} or ${reservation.phoneNumber}`,
+            };
+            sgMail.send(msg);
 
-    const msg = {
-        to: 'gameofclues.pz@gmail.com', // Change to your recipient
-        from: 'gameofclues.pz@gmail.com', // Change to your verified sender
-        subject: `Reservation from ${reservation.name}`,
-        text: `${reservation.name} wants to reserve a ${reservation.gameType} game for ${reservation.people} people. The game lasts ${reservation.duration} minutes and takes place on ${reservation.date} at ${reservation.time}. You can contact ${reservation.name} on ${reservation.email} or ${reservation.phoneNumber}`,
-    };
-
-    sgMail
-        .send(msg)
-        .then(() => {
-            console.log('Email sent')
+            res.send(reservation._id);
         })
-        .catch((error) => {
-            console.error(error)
-        });
-
-    res.send(reservation._id); 
-})
+        .catch(next);
+});
 
 module.exports = router;
