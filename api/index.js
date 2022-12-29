@@ -2,6 +2,7 @@ const router = require('express').Router();
 const models = require('../models');
 const authRouter = require('./auth');
 const faqRouter = require('./faq');
+const fileRouter = require('./file');
 const gameRouter = require('./game');
 const reservationRouter = require('./reservation');
 const teamMemberRouter = require('./teamMember');
@@ -32,6 +33,7 @@ router.post('/contact-us', (req, res, next) => {
 
 router.use('/auth', authRouter);
 router.use('/faq', faqRouter);
+router.use('/file', fileRouter);
 router.use('/game', gameRouter);
 router.use('/reservation', reservationRouter);
 router.use('/team-member', teamMemberRouter);

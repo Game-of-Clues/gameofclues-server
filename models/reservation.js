@@ -6,11 +6,15 @@ const reservationSchema = new Schema({
     type: Number,
     required: true
   },
-  people: {
+  players: {
     type: Number,
     required: true
   },
-  gameType: {
+  price: {
+    type: Number,
+    required: true
+  },
+  gameId: {
     type: String,
     required: true
   },

@@ -2,7 +2,7 @@ const router = require('express').Router();
 const models = require('../models');
 const auth = require('../modules/auth');
 
-router.get('/:id', auth(), (req, res, next) => {
+router.get('/:id', (req, res, next) => {
     models.Game
         .findById(req.params.id)
         .then(game => {
@@ -11,16 +11,16 @@ router.get('/:id', auth(), (req, res, next) => {
         .catch(next);
 });
 
-router.get('/', auth(), (req, res, next) => {
+router.get('/', (req, res, next) => {
     models.Game.find()
         .then(games => res.send(games))
         .catch(next);
 });
 
 router.post('/', auth(true), (req, res, next) => {
-    const { name, photoUrl, description } = req.body;
+    const { name, imageUrl, description } = req.body;
 
-    models.Game.create({ name, photoUrl, description })
+    models.Game.create({ name, imageUrl, description })
         .then(game => res.send(game._id))
         .catch(next);
 });
