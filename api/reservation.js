@@ -18,6 +18,8 @@ router.get('/', auth(true), (req, res, next) => {
         .catch(next);
 });
 
+// TODO router.get('/mine', auth(), (req, res, next) => {});
+
 router.post('/', (req, res, next) => {
     const { gameId, duration, players, price, date, time, name, phoneNumber, email } = req.body;
 
